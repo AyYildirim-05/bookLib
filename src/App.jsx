@@ -7,26 +7,30 @@ import BookFilter from './components/BookFilter'
 
 function App() {
   const [books,setBooks] =useState([])
+  const [isLoading,setIsLoading] = useState(false)
   useEffect(()=>{
+    setIsLoading(true)
     const fetcingBook= async ()=>{
       const books = await fetch('http://gutendex.com/books/')
       const response = await books.json()
       setBooks(response.results)
+      setIsLoading(false)
     }
     fetcingBook()
   },[])
 
-  // console.log(JSON.stringify(books,null,2))
 const [filterParam,setFilterParam] = useState('')
-// console.log(filterParam)
 const filteredBooks = useMemo(()=> books?.filter(b => b.title.toLowerCase().includes( filterParam.toLowerCase())
 ),[filterParam])
-console.log(filteredBooks)
+
   return (
     <>
       <BookFilter setFilterParam={setFilterParam} filterParam={filterParam}/>
-      <BookList books={filteredBooks.length ===0 ? books:filteredBooks}/>
-    
+      {isLoading ?  
+        <p>Is loading</p>
+        :     
+        <BookList books={filteredBooks.length ===0 ? books:filteredBooks}/>
+      }
     </>
   )
 }
