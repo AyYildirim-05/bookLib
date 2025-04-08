@@ -5,8 +5,7 @@ const[newTodo,setNewTodo] = useState("")
 console.log(newTodo)
     return(
         <div>
-        <p>This is todo creation</p>
-        
+            <p>This is todo creation</p>
         </div>
     )
 }
